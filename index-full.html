@@ -3,409 +3,59 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Herbcana — Recomendação de herbicida para cana, sem chute</title>
-<meta name="description" content="App de manejo de herbicidas para cana-de-açúcar. Identifique a planta daninha e receba a dose exata, calculada offline pelo motor Doutor Lavoura.">
-
+<title>Herbcana — Em breve</title>
+<meta name="description" content="Herbcana — manejo de herbicidas para cana-de-açúcar. Em breve.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --canopy:#0E2A14;       /* verde-canavial profundo */
-    --canopy-2:#123A1A;
-    --cane:#B6E021;         /* verde-folha de cana (acento) */
-    --cane-dim:#8FB813;
-    --paper:#F5F3EA;        /* bone / papel quente */
-    --paper-2:#ECE8D8;
-    --ink:#14210F;          /* texto sobre papel */
-    --soil:#9A6B3E;         /* argila/solo (acento secundário) */
-    --mist:#6E7C68;         /* texto secundário */
-    --line:rgba(20,33,15,.12);
-    --line-dark:rgba(182,224,33,.18);
+    --canopy:#0E2A14;
+    --cane:#B6E021;
+    --paper:#F5F3EA;
+    --mist:rgba(245,243,234,.72);
   }
-
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
   body{
-    font-family:"IBM Plex Sans",system-ui,sans-serif;
-    background:var(--paper);
-    color:var(--ink);
-    line-height:1.55;
-    -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
-  }
-  .wrap{max-width:1140px;margin:0 auto;padding:0 24px}
-  .mono{font-family:"IBM Plex Mono",monospace}
-
-  /* ---------- NAV ---------- */
-  header.nav{
-    position:sticky;top:0;z-index:50;
-    background:rgba(14,42,20,.92);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--line-dark);
-  }
-  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
-  .brand{display:flex;align-items:center;gap:10px;color:var(--paper);font-family:"Bricolage Grotesque";font-weight:800;font-size:20px;letter-spacing:-.02em}
-  .brand .leaf{width:24px;height:24px}
-  .nav-links{display:flex;gap:28px;align-items:center}
-  .nav-links a{color:rgba(245,243,234,.7);text-decoration:none;font-size:14px;font-weight:500}
-  .nav-links a:hover{color:var(--cane)}
-  .nav-cta{background:var(--cane);color:var(--canopy);padding:9px 18px;border-radius:999px;font-weight:600;font-size:14px;text-decoration:none}
-  .nav-cta:hover{background:#c8f032}
-  @media(max-width:760px){.nav-links a:not(.nav-cta){display:none}}
-
-  /* ---------- HERO ---------- */
-  .hero{
+    font-family:"IBM Plex Mono",monospace;
     background:var(--canopy);
     color:var(--paper);
-    position:relative;
-    overflow:hidden;
-    padding:84px 0 96px;
+    display:flex;align-items:center;justify-content:center;
+    text-align:center;padding:24px;
+    overflow:hidden;position:relative;
   }
-  /* linhas de plantio ao fundo */
-  .hero::before{
+  body::before{
     content:"";position:absolute;inset:0;
-    background:
-      repeating-linear-gradient(100deg, transparent 0 38px, rgba(182,224,33,.04) 38px 39px);
-    transform:skewY(-3deg) scale(1.2);
-    pointer-events:none;
+    background:repeating-linear-gradient(100deg, transparent 0 40px, rgba(182,224,33,.04) 40px 41px);
+    transform:skewY(-3deg) scale(1.2);pointer-events:none;
   }
-  .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center;position:relative;z-index:2}
-  .eyebrow{
-    font-family:"IBM Plex Mono",monospace;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;
-    color:var(--cane);margin-bottom:22px;display:inline-flex;gap:10px;align-items:center;
-  }
-  .eyebrow::before{content:"";width:28px;height:1px;background:var(--cane)}
-  h1{
+  .wrap{position:relative;z-index:2;max-width:540px}
+  .leaf{width:52px;height:52px;margin:0 auto 26px;display:block}
+  .brand{
     font-family:"Bricolage Grotesque";font-weight:800;
-    font-size:clamp(40px,6.2vw,68px);line-height:.98;letter-spacing:-.03em;
-    margin-bottom:24px;
+    font-size:clamp(38px,9vw,60px);letter-spacing:-.03em;line-height:1;
+    margin-bottom:18px;
   }
-  h1 em{font-style:normal;color:var(--cane)}
-  .hero-sub{font-size:18.5px;color:rgba(245,243,234,.78);max-width:46ch;margin-bottom:34px}
-  .cta-row{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
-  .btn-primary{
-    background:var(--cane);color:var(--canopy);font-weight:600;font-size:16px;
-    padding:15px 28px;border-radius:12px;text-decoration:none;display:inline-flex;align-items:center;gap:10px;
-    transition:transform .15s ease, background .15s ease;
+  .tag{
+    display:inline-block;font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--cane);border:1px solid rgba(182,224,33,.35);border-radius:999px;
+    padding:7px 16px;margin-bottom:24px;
   }
-  .btn-primary:hover{background:#c8f032;transform:translateY(-2px)}
-  .btn-ghost{color:var(--paper);text-decoration:none;font-weight:500;font-size:15px;border-bottom:1px solid rgba(245,243,234,.3);padding-bottom:2px}
-  .btn-ghost:hover{color:var(--cane);border-color:var(--cane)}
-  .price-tag{margin-top:20px;font-size:14px;color:rgba(245,243,234,.6)}
-  .price-tag strong{color:var(--paper);font-weight:600}
-
-  /* mock do app no hero */
-  .device{
-    background:linear-gradient(180deg,#0a2010,#0c2613);
-    border:1px solid var(--line-dark);
-    border-radius:26px;padding:14px;
-    box-shadow:0 40px 80px rgba(0,0,0,.35);
-  }
-  .device-screen{background:var(--paper);border-radius:16px;overflow:hidden;color:var(--ink)}
-  .ds-top{background:var(--canopy);color:var(--paper);padding:14px 16px;display:flex;align-items:center;gap:8px}
-  .ds-top .dot{width:8px;height:8px;border-radius:50%;background:var(--cane)}
-  .ds-top span{font-size:13px;font-weight:600}
-  .ds-body{padding:16px}
-  .ds-label{font-family:"IBM Plex Mono";font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mist);margin-bottom:6px}
-  .ds-weed{font-family:"Bricolage Grotesque";font-weight:700;font-size:18px;margin-bottom:14px}
-  .ds-rec{background:var(--paper-2);border-radius:10px;padding:12px;margin-bottom:10px;border-left:3px solid var(--cane-dim)}
-  .ds-rec .prod{font-weight:600;font-size:14px;display:flex;justify-content:space-between;align-items:center}
-  .ds-rec .meta{font-family:"IBM Plex Mono";font-size:11px;color:var(--mist);margin-top:4px}
-  .rating{font-family:"IBM Plex Mono";font-weight:600;font-size:12px;padding:2px 8px;border-radius:6px;background:var(--cane);color:var(--canopy)}
-  .rating.m{background:#E0B84A}
-  @media(max-width:860px){.hero-grid{grid-template-columns:1fr;gap:40px}.device{max-width:340px;margin:0 auto}}
-
-  /* ---------- FAIXA DE DADOS ---------- */
-  .stats{background:var(--canopy-2);color:var(--paper);border-top:1px solid var(--line-dark)}
-  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
-  .stat{padding:30px 24px;border-right:1px solid var(--line-dark)}
-  .stat:last-child{border-right:none}
-  .stat .n{font-family:"Bricolage Grotesque";font-weight:800;font-size:34px;color:var(--cane);letter-spacing:-.02em}
-  .stat .l{font-size:13.5px;color:rgba(245,243,234,.7);margin-top:4px}
-  @media(max-width:760px){.stats-grid{grid-template-columns:repeat(2,1fr)}.stat:nth-child(2){border-right:none}}
-
-  /* ---------- SEÇÃO GENÉRICA ---------- */
-  .section{padding:96px 0}
-  .sec-eyebrow{font-family:"IBM Plex Mono";font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--soil);margin-bottom:16px}
-  .sec-title{font-family:"Bricolage Grotesque";font-weight:800;font-size:clamp(28px,4vw,42px);line-height:1.05;letter-spacing:-.02em;max-width:18ch;margin-bottom:18px}
-  .sec-lead{font-size:18px;color:var(--mist);max-width:54ch}
-
-  /* ---------- QUATRO PILARES (assinatura) ---------- */
-  .pillars{margin-top:56px;border-top:1px solid var(--line)}
-  .pillar{
-    display:grid;grid-template-columns:80px 1fr 2fr;gap:32px;align-items:start;
-    padding:34px 0;border-bottom:1px solid var(--line);
-  }
-  .pillar .idx{font-family:"IBM Plex Mono";font-size:14px;color:var(--soil);font-weight:600;padding-top:4px}
-  .pillar h3{font-family:"Bricolage Grotesque";font-weight:700;font-size:22px;letter-spacing:-.01em}
-  .pillar p{color:var(--mist);font-size:15.5px}
-  .pillar .tag{display:inline-block;font-family:"IBM Plex Mono";font-size:11px;color:var(--ink);background:var(--paper-2);padding:3px 9px;border-radius:6px;margin-top:10px;margin-right:6px}
-  @media(max-width:760px){.pillar{grid-template-columns:1fr;gap:8px;padding:26px 0}.pillar .idx{padding-top:0}}
-
-  /* ---------- COMO FUNCIONA ---------- */
-  .how{background:var(--canopy);color:var(--paper)}
-  .how .sec-eyebrow{color:var(--cane)}
-  .how .sec-lead{color:rgba(245,243,234,.72)}
-  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:52px}
-  .step{background:rgba(255,255,255,.03);border:1px solid var(--line-dark);border-radius:16px;padding:28px}
-  .step .sn{font-family:"IBM Plex Mono";font-size:13px;color:var(--cane);margin-bottom:14px}
-  .step h4{font-family:"Bricolage Grotesque";font-weight:700;font-size:19px;margin-bottom:8px}
-  .step p{color:rgba(245,243,234,.7);font-size:14.5px}
-  @media(max-width:760px){.steps{grid-template-columns:1fr}}
-
-  /* ---------- RECURSOS ---------- */
-  .features{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:52px}
-  .feat{padding:26px;border:1px solid var(--line);border-radius:14px;background:#fff}
-  .feat .fi{width:34px;height:34px;color:var(--cane-dim);margin-bottom:16px}
-  .feat h4{font-family:"Bricolage Grotesque";font-weight:700;font-size:18px;margin-bottom:6px}
-  .feat p{color:var(--mist);font-size:14.5px}
-  @media(max-width:760px){.features{grid-template-columns:1fr}}
-
-  /* ---------- PREÇO / CTA ---------- */
-  .pricing{background:var(--paper-2)}
-  .price-card{
-    background:var(--canopy);color:var(--paper);border-radius:24px;
-    padding:52px;display:grid;grid-template-columns:1.2fr .8fr;gap:48px;align-items:center;
-    box-shadow:0 30px 70px rgba(14,42,20,.2);
-  }
-  .price-card h2{font-family:"Bricolage Grotesque";font-weight:800;font-size:clamp(26px,3.2vw,36px);line-height:1.05;letter-spacing:-.02em;margin-bottom:14px}
-  .price-card ul{list-style:none;margin-top:22px;display:grid;gap:10px}
-  .price-card li{display:flex;gap:10px;align-items:flex-start;font-size:15px;color:rgba(245,243,234,.82)}
-  .price-card li::before{content:"✓";color:var(--cane);font-weight:700}
-  .price-box{text-align:center;background:rgba(255,255,255,.04);border:1px solid var(--line-dark);border-radius:18px;padding:32px}
-  .price-box .amt{font-family:"Bricolage Grotesque";font-weight:800;font-size:48px;letter-spacing:-.03em}
-  .price-box .amt small{font-size:20px;vertical-align:super;color:var(--cane)}
-  .price-box .once{font-family:"IBM Plex Mono";font-size:12px;color:rgba(245,243,234,.6);letter-spacing:.05em;margin:6px 0 22px}
-  .price-box .btn-primary{width:100%;justify-content:center}
-  @media(max-width:760px){.price-card{grid-template-columns:1fr;padding:34px;gap:30px}}
-
-  /* ---------- FOOTER ---------- */
-  footer{background:var(--canopy-2);color:var(--paper);padding:54px 0 38px;border-top:1px solid var(--line-dark)}
-  .foot-grid{display:flex;justify-content:space-between;align-items:flex-start;gap:30px;flex-wrap:wrap}
-  .foot-brand{font-family:"Bricolage Grotesque";font-weight:800;font-size:22px}
-  .foot-brand .zy{display:block;font-family:"IBM Plex Mono";font-weight:400;font-size:12px;letter-spacing:.14em;color:var(--cane);margin-top:6px}
-  .foot-links{display:flex;gap:40px}
-  .foot-col h5{font-size:12px;font-family:"IBM Plex Mono";letter-spacing:.1em;text-transform:uppercase;color:rgba(245,243,234,.5);margin-bottom:12px}
-  .foot-col a{display:block;color:rgba(245,243,234,.78);text-decoration:none;font-size:14px;margin-bottom:8px}
-  .foot-col a:hover{color:var(--cane)}
-  .foot-base{margin-top:42px;padding-top:22px;border-top:1px solid var(--line-dark);font-size:13px;color:rgba(245,243,234,.5);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
-
-  /* ---------- MOTION ---------- */
-  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease, transform .7s ease}
-  .reveal.in{opacity:1;transform:none}
-  @media(prefers-reduced-motion:reduce){
-    .reveal{opacity:1;transform:none;transition:none}
-    html{scroll-behavior:auto}
-    .hero::before{transform:none}
-  }
+  p{font-size:16px;color:var(--mist);line-height:1.6;max-width:42ch;margin:0 auto}
+  .soon{margin-top:30px;font-size:13px;color:rgba(245,243,234,.45);letter-spacing:.04em}
 </style>
 </head>
 <body>
-
-<header class="nav">
-  <div class="wrap nav-inner">
-    <div class="brand">
-      <svg class="leaf" viewBox="0 0 24 24" fill="none"><path d="M12 22C7 18 4 13 4 8c0-3 2-6 8-6 0 6-3 11-8 14" stroke="#B6E021" stroke-width="1.6" stroke-linecap="round"/><path d="M12 22c5-4 8-9 8-14 0-3-2-6-8-6" stroke="#B6E021" stroke-width="1.6" stroke-linecap="round"/></svg>
-      Herbcana
-    </div>
-    <nav class="nav-links">
-      <a href="#metodo">Método</a>
-      <a href="#como">Como funciona</a>
-      <a href="#recursos">Recursos</a>
-      <a href="#preco" class="nav-cta">Baixar app</a>
-    </nav>
-  </div>
-</header>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <span class="eyebrow">Manejo de herbicidas · Cana-de-açúcar</span>
-      <h1>Identifique a planta daninha.<br>Receba a <em>dose exata.</em></h1>
-      <p class="hero-sub">O Herbcana cruza identificação da daninha, época de aplicação e propriedades físico-químicas para recomendar o herbicida certo — ajustado à argila do seu solo. Tudo offline, na palma da mão, direto na lavoura.</p>
-      <div class="cta-row">
-        <a href="#preco" class="btn-primary">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3l16 9-16 9V3z"/></svg>
-          Baixar na Google Play
-        </a>
-        <a href="#metodo" class="btn-ghost">Ver o método →</a>
-      </div>
-      <p class="price-tag">Pagamento único de <strong>R$ 59,99</strong> · sem mensalidade · funciona sem internet</p>
-    </div>
-
-    <div class="device reveal">
-      <div class="device-screen">
-        <div class="ds-top"><span class="dot"></span><span>Doutor Lavoura</span></div>
-        <div class="ds-body">
-          <div class="ds-label">Daninha identificada</div>
-          <div class="ds-weed">Brachiaria decumbens</div>
-          <div class="ds-label">Recomendação · cana soca · pré-emergente</div>
-          <div class="ds-rec">
-            <div class="prod">Sulfentrazona <span class="rating">S</span></div>
-            <div class="meta">Dose: 1,2 L/ha · argila 28% · Koc 43 · DT50 121d</div>
-          </div>
-          <div class="ds-rec">
-            <div class="prod">Isoxaflutol <span class="rating m">M</span></div>
-            <div class="meta">Dose: 0,375 kg/ha · argila 28% · GUS 2,9</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- STATS -->
-<section class="stats">
-  <div class="wrap stats-grid">
-    <div class="stat"><div class="n">40+</div><div class="l">produtos comerciais na base</div></div>
-    <div class="stat"><div class="n">100%</div><div class="l">offline e determinístico</div></div>
-    <div class="stat"><div class="n">4</div><div class="l">pilares na recomendação</div></div>
-    <div class="stat"><div class="n">PPDB</div><div class="l">dados físico-químicos</div></div>
-  </div>
-</section>
-
-<!-- MÉTODO / PILARES -->
-<section class="section" id="metodo">
   <div class="wrap">
-    <div class="sec-eyebrow">A metodologia Doutor Lavoura</div>
-    <h2 class="sec-title">Quatro pilares para uma recomendação que se sustenta no campo</h2>
-    <p class="sec-lead">Nada de chute nem de “o que sempre se usou”. Cada recomendação passa por uma sequência de critérios técnicos antes de chegar à dose.</p>
-
-    <div class="pillars">
-      <div class="pillar reveal">
-        <div class="idx">01</div>
-        <h3>Identificação da daninha</h3>
-        <div>
-          <p>Você parte da espécie presente no talhão. A base traz a suscetibilidade de cada produto por espécie, no sistema de notas que você já conhece.</p>
-          <span class="tag">A · S · M · P · T</span>
-        </div>
-      </div>
-      <div class="pillar reveal">
-        <div class="idx">02</div>
-        <h3>Época de aplicação</h3>
-        <div>
-          <p>Cana planta ou soca, pré ou pós-emergente, dessecação. O contexto define quais moléculas entram na seleção.</p>
-          <span class="tag">pré-emergente</span><span class="tag">soca</span><span class="tag">dessecação</span>
-        </div>
-      </div>
-      <div class="pillar reveal">
-        <div class="idx">03</div>
-        <h3>Propriedades físico-químicas</h3>
-        <div>
-          <p>Koc, DT50, Log P, GUS e pKa entram na conta para avaliar residual, lixiviação e comportamento no solo — com dados da PPDB.</p>
-          <span class="tag">Koc</span><span class="tag">DT50</span><span class="tag">GUS</span>
-        </div>
-      </div>
-      <div class="pillar reveal">
-        <div class="idx">04</div>
-        <h3>Dose ajustada à argila</h3>
-        <div>
-          <p>O teor de argila do solo corrige a dose final, refinando o residual e reduzindo risco de fitotoxicidade ou perda de eficácia.</p>
-          <span class="tag">% argila → kg/ha</span>
-        </div>
-      </div>
-    </div>
+    <svg class="leaf" viewBox="0 0 24 24" fill="none">
+      <path d="M12 22C7 18 4 13 4 8c0-3 2-6 8-6 0 6-3 11-8 14" stroke="#B6E021" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M12 22c5-4 8-9 8-14 0-3-2-6-8-6" stroke="#B6E021" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <div class="brand">Herbcana</div>
+    <span class="tag">Em breve</span>
+    <p>Recomendação de herbicida para cana-de-açúcar, calculada na lavoura. Estamos finalizando os últimos detalhes.</p>
+    <div class="soon">Lançamento em breve · Google Play</div>
   </div>
-</section>
-
-<!-- COMO FUNCIONA -->
-<section class="section how" id="como">
-  <div class="wrap">
-    <div class="sec-eyebrow">Em três passos</div>
-    <h2 class="sec-title">Da daninha à dose em menos de um minuto</h2>
-    <div class="steps">
-      <div class="step reveal"><div class="sn">PASSO 01</div><h4>Informe o cenário</h4><p>Espécie da daninha, fase da cana, época de aplicação e o teor de argila do talhão.</p></div>
-      <div class="step reveal"><div class="sn">PASSO 02</div><h4>O motor calcula</h4><p>O Doutor Lavoura cruza os quatro pilares de forma determinística — mesmo cenário, mesma resposta, sempre.</p></div>
-      <div class="step reveal"><div class="sn">PASSO 03</div><h4>Receba a recomendação</h4><p>Produtos ordenados por suscetibilidade, com dose ajustada e propriedades à vista para sua decisão.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- RECURSOS -->
-<section class="section" id="recursos">
-  <div class="wrap">
-    <div class="sec-eyebrow">Por que confiar</div>
-    <h2 class="sec-title">Feito para a realidade do campo</h2>
-    <div class="features">
-      <div class="feat reveal">
-        <svg class="fi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12a9 9 0 1018 0 9 9 0 00-18 0z"/><path d="M3 12h18M12 3a14 14 0 010 18 14 14 0 010-18z"/><line x1="2" y1="2" x2="22" y2="22" stroke-width="2"/></svg>
-        <h4>Funciona sem internet</h4>
-        <p>Base de dados embarcada no app. No talhão, longe do sinal, ele continua respondendo.</p>
-      </div>
-      <div class="feat reveal">
-        <svg class="fi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6M9 13h6M9 17h3"/></svg>
-        <h4>Determinístico, não “chute de IA”</h4>
-        <p>Nada de respostas que variam. Critérios técnicos fixos, rastreáveis e auditáveis.</p>
-      </div>
-      <div class="feat reveal">
-        <svg class="fi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l8 4v6c0 5-3.5 7.5-8 8-4.5-.5-8-3-8-8V7l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
-        <h4>Dados de referência</h4>
-        <p>Propriedades físico-químicas baseadas na PPDB (University of Hertfordshire).</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PREÇO -->
-<section class="section pricing" id="preco">
-  <div class="wrap">
-    <div class="price-card reveal">
-      <div>
-        <h2>Tenha o agrônomo de bolso por um valor único</h2>
-        <p style="color:rgba(245,243,234,.78);max-width:44ch">Compre uma vez e use para sempre. Sem assinatura, sem cobrança recorrente, sem pegadinha.</p>
-        <ul>
-          <li>Acesso completo à base de herbicidas</li>
-          <li>Recomendações ilimitadas e offline</li>
-          <li>Atualizações da base inclusas</li>
-        </ul>
-      </div>
-      <div class="price-box">
-        <div class="amt"><small>R$</small> 59<small>,99</small></div>
-        <div class="once">PAGAMENTO ÚNICO</div>
-        <a href="#" class="btn-primary">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3l16 9-16 9V3z"/></svg>
-          Baixar na Google Play
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="wrap">
-    <div class="foot-grid">
-      <div>
-        <div class="foot-brand">Herbcana</div>
-      </div>
-      <div class="foot-links">
-        <div class="foot-col">
-          <h5>Produto</h5>
-          <a href="#metodo">Método</a>
-          <a href="#como">Como funciona</a>
-          <a href="#preco">Preço</a>
-        </div>
-        <div class="foot-col">
-          <h5>Legal</h5>
-          <a href="#">Termos de uso</a>
-          <a href="#">Privacidade</a>
-        </div>
-      </div>
-    </div>
-    <div class="foot-base">
-      <span>© 2026 Herbcana. Todos os direitos reservados.</span>
-    </div>
-  </div>
-</footer>
-
-<script>
-  const io = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
-  },{threshold:.15});
-  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-</script>
 </body>
 </html>
